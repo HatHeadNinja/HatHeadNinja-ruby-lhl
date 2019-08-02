@@ -10,6 +10,7 @@ namespace "exam" do
   end
 
   task :question, [:question_number] do |t, args|
-    TestRunner.run(0)
+    question_number = args[:question_number].to_i
+    TestRunner.run(question_number)
   end
 end
