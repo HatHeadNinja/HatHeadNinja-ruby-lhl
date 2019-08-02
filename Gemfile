@@ -4,5 +4,6 @@ source "https://rubygems.org"
 
 git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
-gem 'rake'
-gem 'faraday'
+gem 'rake', '~> 12.3.3'
+gem 'faraday', '~> 0.15.4'
+gem 'rspec', '~> 3.8.0'
