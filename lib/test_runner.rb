@@ -16,12 +16,12 @@ class TestRunner
   def initialize question_number
     @start_time = Time.new
     @number = question_number
-    @out_file = Tempfile.new('rspec_out')
-    @err_file = Tempfile.new('rspec_err')
   end
 
   def run
-    @exitCode = RSpec::Core::Runner.run([test_file, '-f', 'j'], @err_file, @out_file)
+    runner_conf = RSpec::Core::ConfigurationOptions.new([test_file, '-f', 'doc', '-f', 'j', '--out', 'report.json'])
+    runner = RSpec::Core::Runner.new(runner_conf)
+    @exitCode = runner.run($stdout, $stderr)
     @end_time = Time.new
 
     resp = report_results
@@ -43,12 +43,7 @@ class TestRunner
   end
 
   def rspec_results
-    @rspec_results ||= @out_file.rewind && JSON.parse(@out_file.read)
-  end
-
-  def rspec_errors
-    @err_file.rewind
-    @err_file.read
+    @rspec_results ||= JSON.parse(out_file.read)
   end
 
   def test_file
@@ -61,6 +56,10 @@ class TestRunner
     else
       "#{@number}"
     end
+  end
+
+  def out_file
+    @out_file ||= File.open('./report.json', 'r')
   end
 
   def request_body
@@ -115,10 +114,8 @@ class TestRunner
   end
 
   def cleanup
-    [@out_file, @err_file].each do |file|
-      file.close
-      file.unlink
-    end
+    out_file.close
+    File.delete(out_file.path)
   end
 end
 
