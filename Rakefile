@@ -9,6 +9,10 @@ namespace "exam" do
 
   task :question, [:question_number] do |t, args|
     question_number = args[:question_number].to_i
+    
+    puts "Running Tests for Question #{question_number}"
+    puts "------------"
+    
     TestRunner.run(question_number)
   end
 end

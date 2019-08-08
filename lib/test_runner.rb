@@ -26,7 +26,7 @@ class TestRunner
 
     resp = report_results
 
-    if resp.status === 200 then
+    if resp.status != 200 then
       pp resp.body
     end
 
