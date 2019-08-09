@@ -1,13 +1,10 @@
 require 'rspec'
-require 'tempfile'
 require 'json'
-require 'faraday'
 require 'digest'
+require_relative './api'
 
 class TestRunner
-  EXAM_CODE = 'web-06'
-  EXAM_HOST = 'http://localhost:3000'
-  SUBMISSION_PATH = "#{EXAM_HOST}/submissions"
+  EXAM_CODE = 'web-06-demo'
 
   def self.run(question_number)
     TestRunner.new(question_number).run
@@ -24,22 +21,19 @@ class TestRunner
     @exitCode = runner.run($stdout, $stderr)
     @end_time = Time.new
 
-    resp = report_results
-
-    if resp.status != 200 then
-      pp resp.body
+    begin    
+      report_results
+    rescue API::SubmissionError => e
+      puts e.message
     end
-
+    
     cleanup
   end
 
   private
 
   def report_results
-    Faraday.post(SUBMISSION_PATH) do |req|
-      req.headers["Content-Type"] = "application/json"
-      req.body = request_body.to_json
-    end
+    API.submit_results request_body
   end
 
   def rspec_results
@@ -64,7 +58,7 @@ class TestRunner
 
   def request_body
     {
-      examId: 'web-06',
+      examId: EXAM_CODE,
       questionNumber: @number,
       lintResults: nil,
       testResults: test_results,
