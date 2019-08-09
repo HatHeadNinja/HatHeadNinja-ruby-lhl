@@ -2,7 +2,7 @@ require 'faraday'
 require 'json'
 
 module API
-  API_HOST = 'http://localhost:3000'
+  API_HOST = "https://lighthouse-proctologist.herokuapp.com"
   EXAM_START_PATH = "#{API_HOST}/exams"
   SUBMISSION_PATH = "#{API_HOST}/submissions"
 
