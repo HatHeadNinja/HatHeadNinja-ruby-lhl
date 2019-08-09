@@ -1,29 +1,21 @@
 require_relative './api'
+require_relative './config'
 
 module ExamLoader
-  EXAM_CODE = 'web-06-demo'
-
   def self.load
     # Read student ID file
     begin
-      studentIdFile = File.open('./.student-id')
-      studentId = studentIdFile.read.chomp
-      studentIdFile.close
-    rescue
-      puts "Enter a unique Student Id in the file .student-id"
+      config = Config.new
+    rescue Config::ConfigLoadError => e
+      puts e.message
       return false
     end
 
-    if studentId == "" then
-      puts "Enter a unique Student Id in the file .student-id"
-      return false
-    end
-
-    puts "Contacting Server to Start Exam \"#{EXAM_CODE}\""
+    puts "Contacting Server to Start Exam \"#{config.exam_code}\""
     puts
 
     begin
-      json = API.start_exam EXAM_CODE, studentId
+      json = API.start_exam config.exam_code, config.student_id
       write_exam json  
     rescue API::StartExamError => e
       puts e.message

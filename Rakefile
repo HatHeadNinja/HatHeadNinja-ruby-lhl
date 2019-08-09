@@ -3,7 +3,7 @@ require_relative './lib/test_runner'
 
 namespace "exam" do
   desc "Start an exam"
-  task :start do 
+  task :start do
     ExamLoader.load
   end
 
@@ -13,6 +13,10 @@ namespace "exam" do
     puts "Running Tests for Question #{question_number}"
     puts "------------"
     
-    TestRunner.run(question_number)
+    begin
+      TestRunner.run(question_number)
+    rescue e
+      puts e.message
+    end
   end
 end

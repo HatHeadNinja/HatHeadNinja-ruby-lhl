@@ -2,10 +2,9 @@ require 'rspec'
 require 'json'
 require 'digest'
 require_relative './api'
+require_relative './config'
 
 class TestRunner
-  EXAM_CODE = 'web-06-demo'
-
   def self.run(question_number)
     TestRunner.new(question_number).run
   end
@@ -13,6 +12,7 @@ class TestRunner
   def initialize question_number
     @start_time = Time.new
     @number = question_number
+    @config = Config.new
   end
 
   def run
@@ -82,14 +82,14 @@ class TestRunner
 
   def request_body
     {
-      examId: EXAM_CODE,
+      examId: @config.exam_code,
       questionNumber: @number,
       lintResults: nil,
       testResults: test_results,
       testFileHash: test_file_hash,
       studentCode: student_code,
       errors: test_errors,
-      studentId: student_id
+      studentId: @config.student_id
     }
   end
 
