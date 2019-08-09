@@ -1,14 +1,10 @@
 require 'rspec'
-require 'tempfile'
 require 'json'
-require 'faraday'
 require 'digest'
+require_relative './api'
+require_relative './config'
 
 class TestRunner
-  EXAM_CODE = 'web-06'
-  EXAM_HOST = 'http://localhost:3000'
-  SUBMISSION_PATH = "#{EXAM_HOST}/submissions"
-
   def self.run(question_number)
     TestRunner.new(question_number).run
   end
@@ -16,6 +12,7 @@ class TestRunner
   def initialize question_number
     @start_time = Time.new
     @number = question_number
+    @config = Config.new
   end
 
   def run
@@ -24,22 +21,43 @@ class TestRunner
     @exitCode = runner.run($stdout, $stderr)
     @end_time = Time.new
 
-    resp = report_results
+    begin    
+      results = report_results
 
-    if resp.status != 200 then
-      pp resp.body
+      print_results results
+    rescue API::SubmissionError => e
+      puts e.message
     end
-
+    
     cleanup
   end
 
   private
 
-  def report_results
-    Faraday.post(SUBMISSION_PATH) do |req|
-      req.headers["Content-Type"] = "application/json"
-      req.body = request_body.to_json
+  def print_results results
+    puts "Overall Score"
+    puts "------------"
+    
+    questions = results["scores"]
+    questions.each do |q|
+      puts "Q#{q["questionNumber"]}. #{q["score"]}/#{q["maxScore"]}"
     end
+
+    puts
+
+    time_remaining = results["remainingTime"]
+    if time_remaining > 0
+      hours = (time_remaining / 60).floor
+      minutes = (time_remaining % 60).floor
+
+      puts "Time Remaining: #{hours}h#{minutes}"
+    else
+      puts "Time Remaining: None (Submission still accepted)"
+    end
+  end
+
+  def report_results
+    API.submit_results request_body
   end
 
   def rspec_results
@@ -64,14 +82,14 @@ class TestRunner
 
   def request_body
     {
-      examId: 'web-06',
+      examId: @config.exam_code,
       questionNumber: @number,
       lintResults: nil,
       testResults: test_results,
       testFileHash: test_file_hash,
       studentCode: student_code,
       errors: test_errors,
-      studentId: student_id
+      studentId: @config.student_id
     }
   end
 
