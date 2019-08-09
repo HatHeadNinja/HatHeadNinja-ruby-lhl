@@ -34,6 +34,6 @@ module API
       raise SubmissionError, resp.body
     end
 
-    resp
+    JSON.parse(resp.body)
   end
 end

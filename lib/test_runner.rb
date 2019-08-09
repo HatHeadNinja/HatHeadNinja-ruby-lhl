@@ -22,7 +22,9 @@ class TestRunner
     @end_time = Time.new
 
     begin    
-      report_results
+      results = report_results
+
+      print_results results
     rescue API::SubmissionError => e
       puts e.message
     end
@@ -31,6 +33,28 @@ class TestRunner
   end
 
   private
+
+  def print_results results
+    puts "Overall Score"
+    puts "------------"
+    
+    questions = results["scores"]
+    questions.each do |q|
+      puts "Q#{q["questionNumber"]}. #{q["score"]}/#{q["maxScore"]}"
+    end
+
+    puts
+
+    time_remaining = results["remainingTime"]
+    if time_remaining > 0
+      hours = (time_remaining / 60).floor
+      minutes = (time_remaining % 60).floor
+
+      puts "Time Remaining: #{hours}h#{minutes}"
+    else
+      puts "Time Remaining: None (Submission still accepted)"
+    end
+  end
 
   def report_results
     API.submit_results request_body
