@@ -15,7 +15,7 @@ namespace "exam" do
     
     begin
       TestRunner.run(question_number)
-    rescue e
+    rescue StandardError => e
       puts e.message
     end
   end

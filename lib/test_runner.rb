@@ -69,7 +69,7 @@ class TestRunner
   end
 
   def padd_number
-    if @number < 10 then
+    if @number < 10
       "0#{@number}"
     else
       "#{@number}"
@@ -111,11 +111,9 @@ class TestRunner
   end
 
   def test_errors
-    if @exitCode == 0 then
-      return []
-    end
+    return [] if @exitCode == 0
 
-    rspec_results["examples"].map { |example| example["exception"] }.filter { |error| error != nil }
+    rspec_results["examples"].map { |example| example["exception"] }.reject { |error| error.nil? }
   end
 
   def student_id
