@@ -37,19 +37,27 @@ bundle install
 
 Open the entire project directory in VS Code. You should see the directory tree on the left hand side:
 
-![screenshot of vscode](https://d.pr/i/qNC5oO+)
+![screenshot of vscode](./img/1-vscode.png)
 
 ---
 
-> 4. Specify your exact **GitHub user name** in the file `.student-id`
+> 4. Specify your exact **GitHub user name** in the file `config.yml`
 
-This file should contain only your **user name** (without any spaces, new lines, or other text). It should be the correct case as well.
+This is **case-sensitive** so make sure you match it exactly.
 
 ![screenshot of GitHub](https://d.pr/i/DJBM/5kFTOJ8Q+)
 
-![screenshot of VS Code](https://d.pr/i/EwR7zU+)
+![screenshot of VS Code](./img/2-student-id.png)
 
 **NOTE: Ensure your user name is spelled correctly!**
+
+---
+
+> 5. Specify your exam code in the file `config.yml`
+
+The exam code will be given to you by the proctor. Enter it under your student id in the `config.yml` file
+
+![screenshot of VS Code](./img/3-exam-code.png)
 
 ---
 
@@ -57,7 +65,7 @@ This file should contain only your **user name** (without any spaces, new lines,
 
 Enter the command below to start the test:
 
-- Once you start the exam, the test timer will start (typically 3 hours).
+- Once you start the exam, the test timer will start.
 
 ```terminal
 bundle exec rake exam:start
@@ -71,18 +79,18 @@ You should see output that looks like this (note: output may vary based on which
 Contacting Server to Start Exam "web-06"
 
 Server Response: 5 Questions:
-  Creating Question 00  (30 Points) Answer file: answers/00.js
-  Creating Question 01  (30 Points) Answer file: answers/01.js
-  Creating Question 02  (20 Points) Answer file: answers/02.js
-  Creating Question 03  (20 Points) Answer file: answers/03.js
-  Creating Question 04  (20 Points) Answer file: answers/04.js
+  Creating Question 00  (30 Points) Answer file: answers/00.rb
+  Creating Question 01  (30 Points) Answer file: answers/01.rb
+  Creating Question 02  (20 Points) Answer file: answers/02.rb
+  Creating Question 03  (20 Points) Answer file: answers/03.rb
+  Creating Question 04  (20 Points) Answer file: answers/04.rb
 ```
 
 If you see an error, please let the proctor know. **You may need to re-clone and restart the process from step 1 if the problem persists!**
 
 ---
 
-## Answering Questions (Detailed Walkthrough)
+## Answering Questions
 
 Now you're ready to start answering questions! Follow these steps carefully:
 
@@ -104,19 +112,15 @@ bundle exec rake exam:question[0]
 
 > 3. Read the output carefully
 
-Notice that none of the tests for question 0 are passing (well one of them passes by default, so you start with 2 points, no big deal!):
-
-![](https://d.pr/i/rLIC/22mUQewK+)
+Notice that none of the tests for question 0 are passing.
 
 ---
 
 > 4. Write some code
 
-Implement the code for the first function (`count`) in the question, located in `answers/00.rb`.
+Implement the code to make the first test pass, located in `answers/00.rb`.
 
-Run the `bundle exec rake exam:question[0]` command again to make sure you are starting to see solutions:
-
-![](https://d.pr/i/NjfW/59rG0xpf+)
+Run the `bundle exec rake exam:question[0]` command again to make sure you are starting to see solutions.
 
 Notice that your score for the question also went up. The number of automated tests passing the primary factor for how your score is calculated.
 
