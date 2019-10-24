@@ -55,7 +55,7 @@ This is **case-sensitive** so make sure you match it exactly.
 
 > 5. Specify your exam code in the file `config.yml`
 
-The exam code will be given to you by the proctor. Enter it under your student id in the `config.yml` file
+The exam code can be found [in this reading on Compass](https://web.compass.lighthouselabs.ca/4c01411e-afe1-464c-a9aa-d5157bb9c2b1). Enter it under your student id in the `config.yml` file
 
 ![screenshot of VS Code](./img/3-exam-code.png)
 
