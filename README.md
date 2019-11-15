@@ -68,8 +68,10 @@ Enter the command below to start the test:
 - Once you start the exam, the test timer will start.
 
 ```terminal
-bundle exec rake exam:start
+bundle exec rake exam:start[<EXAM_TOKEN>]
 ```
+
+> Replace `<EXAM_TOKEN>` with the token provided to you [on compass](https://web.compass.lighthouselabs.com/4c01411e-afe1-464c-a9aa-d5157bb9c2b1).
 
 This command downloads the test questions to your local file system. You should see new files in the `answers/` directory.
 
