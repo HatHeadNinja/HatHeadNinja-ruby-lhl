@@ -27,8 +27,10 @@ module API
     json
   end
 
-  def self.submit_results(request_body)
-    resp = Faraday.post(SUBMISSION_PATH) do |req|
+  def self.submit_results(request_body, exam_id, exam_token)
+    url = "#{EXAM_PATH}/#{exam_id}"
+    resp = Faraday.post(url) do |req|
+      req.headers['Authorization'] = "Bearer #{exam_token}"
       req.headers['Content-Type'] = 'application/json'
       req.body = request_body.to_json
     end

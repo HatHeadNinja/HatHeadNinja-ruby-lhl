@@ -1,5 +1,5 @@
 require_relative './api'
-require_relative './config'
+require 'json'
 
 module ExamLoader
   def self.load(token)
@@ -8,7 +8,7 @@ module ExamLoader
 
     begin
       json = API.start_exam token
-      write_exam json
+      write_exam json, token
     rescue API::StartExamAuthorizationError => e
       puts 'Token seems to be missing'
       puts 'Please make sure you enter it along with this command'
@@ -25,7 +25,7 @@ module ExamLoader
     puts ''
   end
 
-  def self.write_exam(exam)
+  def self.write_exam(exam, token)
     questions = exam['questions']
     puts "Server Response: #{questions.count} Questions:\n"
 
@@ -45,6 +45,11 @@ module ExamLoader
       File.open(test_path, 'w') do |f|
         f.puts test_content
       end
+    end
+
+    exam_data = { exam_id: exam['examId'], token: token }
+    File.open('./.exam-data', 'w') do |f|
+      f.puts exam_data.to_json
     end
   end
 end
