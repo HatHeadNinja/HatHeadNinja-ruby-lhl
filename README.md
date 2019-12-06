@@ -41,27 +41,7 @@ Open the entire project directory in VS Code. You should see the directory tree 
 
 ---
 
-> 4. Specify your exact **GitHub user name** in the file `config.yml`
-
-This is **case-sensitive** so make sure you match it exactly.
-
-![screenshot of GitHub](https://d.pr/i/DJBM/5kFTOJ8Q+)
-
-![screenshot of VS Code](./img/2-student-id.png)
-
-**NOTE: Ensure your user name is spelled correctly!**
-
----
-
-> 5. Specify your exam code in the file `config.yml`
-
-The exam code can be found [in this reading on Compass](https://web.compass.lighthouselabs.ca/4c01411e-afe1-464c-a9aa-d5157bb9c2b1). Enter it under your student id in the `config.yml` file
-
-![screenshot of VS Code](./img/3-exam-code.png)
-
----
-
-> 5. Start the test from a terminal window
+> 4. Start the test from a terminal window
 
 Enter the command below to start the test:
 
