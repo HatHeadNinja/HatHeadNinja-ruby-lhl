@@ -1,41 +1,40 @@
 require_relative './api'
-require_relative './config'
+require 'json'
 
 module ExamLoader
-  def self.load
-    # Read student ID file
-    begin
-      config = Config.new
-    rescue Config::ConfigLoadError => e
-      puts e.message
-      return false
-    end
-
-    puts "Contacting Server to Start Exam \"#{config.exam_code}\""
+  def self.load(token)
+    puts "Contacting Server to Start Exam with token: \"#{token}\""
     puts
 
     begin
-      json = API.start_exam config.exam_code, config.student_id
-      write_exam json  
-    rescue API::StartExamError => e
-      puts e.message
+      json = API.start_exam token
+      write_exam json, token
+    rescue API::StartExamAuthorizationError => e
+      puts 'Token seems to be missing'
+      puts 'Please make sure you enter it along with this command'
+      puts '  $ bundle exec rake exam:start[<EXAM_TOKEN>]'
+      puts "Server Error: #{e.message}"
       return false
+    rescue API::StartExamForbiddenError => e
+      puts 'Invalid token!'
+      puts 'Please make sure you have started the exam from compass.'
+      puts "Server Error: #{e.message}"
     end
 
     # Print empty line
-    puts ""
+    puts ''
   end
 
-  def self.write_exam exam
-    questions = exam["questions"]
+  def self.write_exam(exam, token)
+    questions = exam['questions']
     puts "Server Response: #{questions.count} Questions:\n"
 
     questions.each do |q|
-      code_path = q["codePath"]
-      code_content = q["code"]
+      code_path = q['codePath']
+      code_content = q['code']
 
-      test_path = q["testPath"]
-      test_content = q["testCode"]
+      test_path = q['testPath']
+      test_content = q['testCode']
 
       puts "\tCreating Question #{q['questionId']}\t (#{q['maxScore']} Points)\tAnswer file: #{code_path}"
 
@@ -46,6 +45,11 @@ module ExamLoader
       File.open(test_path, 'w') do |f|
         f.puts test_content
       end
+    end
+
+    exam_data = { exam_id: exam['examId'], token: token }
+    File.open('./.exam-data', 'w') do |f|
+      f.puts exam_data.to_json
     end
   end
 end
