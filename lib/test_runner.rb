@@ -48,7 +48,7 @@ class TestRunner
       hours = (time_remaining / 60).floor
       minutes = (time_remaining % 60).floor
 
-      puts "Time Remaining: #{hours}h#{minutes}"
+      puts "Time Remaining: #{hours}h#{minutes}m"
     else
       puts 'Time Remaining: None (Submission still accepted)'
     end
