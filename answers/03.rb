@@ -20,14 +20,13 @@ class PokerHand
 
   # Returns an array of 5 cards in player's hand:
   # =>  Eg: ['6♠', '3♦', 'A♣', 'J♦', 'J♥']
+  private
+  
   def cards
     %w(6♠ 3♦ A♣ J♦ J♥)
   end
   def to_s
     %w(6♠ 3♦ A♣ J♦ J♥)
   end
-
-  private :to_s
-  private :cards
 
 end
