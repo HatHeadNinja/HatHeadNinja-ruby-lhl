@@ -28,5 +28,6 @@ class PokerHand
   end
 
   private :to_s
+  private :cards
 
 end
