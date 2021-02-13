@@ -2,6 +2,7 @@
 
 Here's an existing class representing a poker hand.
 It has a method `cards` which returns an array of the cards in hand.
+
 It's always the same hand, we know. That's not practical, but hey this is a test, not a real game.
 
 Your mission:
@@ -19,8 +20,13 @@ class PokerHand
 
   # Returns an array of 5 cards in player's hand:
   # =>  Eg: ['6♠', '3♦', 'A♣', 'J♦', 'J♥']
+  def cards
+    %w(6♠ 3♦ A♣ J♦ J♥)
+  end
   def to_s
     %w(6♠ 3♦ A♣ J♦ J♥)
   end
+
+  private :to_s
 
 end
