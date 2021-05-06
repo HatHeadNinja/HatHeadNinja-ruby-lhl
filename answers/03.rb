@@ -20,7 +20,8 @@ class PokerHand
 
   # Returns an array of 5 cards in player's hand:
   # =>  Eg: ['6♠', '3♦', 'A♣', 'J♦', 'J♥']
-  # feedback provided inputs
+  # 1. feedback provided inputs
+  # 2. transform inputs
   private
   
   def cards
