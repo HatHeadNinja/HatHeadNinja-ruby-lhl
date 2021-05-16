@@ -22,6 +22,7 @@ class PokerHand
   # =>  Eg: ['6♠', '3♦', 'A♣', 'J♦', 'J♥']
   # 1. feedback provided inputs
   # 2. transform inputs
+  # TDD
   private
   
   def cards
